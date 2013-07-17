@@ -1,6 +1,6 @@
 # grunt-fetch-pages
 
-> Grunt plugin for fetching URLs and save the result as local files.
+> Grunt plugin for fetching URLs and saving the result as local files.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
