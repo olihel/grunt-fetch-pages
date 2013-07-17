@@ -1,0 +1,48 @@
+{
+  "name": "grunt-fetch-pages",
+  "description": "Grunt plugin for fetching URLs and save the result as local files",
+  "version": "0.1.0",
+  "homepage": "https://github.com/olihel/grunt-fetch-pages",
+  "author": {
+    "name": "Oliver Hellebusch",
+    "email": "mail@olihel.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/olihel/grunt-fetch-pages.git"
+  },
+  "bugs": {
+    "url": "https://github.com/olihel/grunt-fetch-pages/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/olihel/grunt-fetch-pages/master/LICENSE-MIT"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "request": "~2.22.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-nodeunit": "~0.2.0"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.1"
+  },
+  "keywords": [
+    "gruntplugin",
+    "fetch",
+    "URL",
+    "curl",
+    "wget"
+  ]
+}
