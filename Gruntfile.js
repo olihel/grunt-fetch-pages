@@ -14,25 +14,53 @@ module.exports = function (grunt) {
       all: [
         'Gruntfile.js',
         'tasks/*.js',
-        '<%= nodeunit.tests %>'
+        '<%= nodeunit.test %>'
       ],
       options: {
         jshintrc: '.jshintrc'
       }
     },
 
+    clean: {
+      test: ['test/www-fetched']
+    },
+
+    express: {
+      test: {
+        options: {
+          hostname: 'localhost',
+          port: 3003,
+          bases: 'test/www-root'
+        }
+      }
+    },
+
+    fetchpages: {
+      test: {
+        options: {
+          baseURL: 'http://localhost:3003',
+          target: 'test/www-fetched'
+        },
+        files: [
+          {src: ['**/*.html'], expand: true, cwd: 'test/www-root/'}
+        ]
+      }
+    },
+
     nodeunit: {
-      tests: ['test/*_test.js']
+      test: ['test/*_test.js']
     }
   });
 
   grunt.loadTasks('tasks');
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-  grunt.registerTask('test', ['nodeunit']);
+  grunt.registerTask('test', ['jshint', 'clean:test', 'express:test', 'fetchpages:test', 'nodeunit:test']);
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint', 'test']);
+  grunt.registerTask('default', ['test']);
 };

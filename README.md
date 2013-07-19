@@ -61,7 +61,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 [![githalytics.com alpha](https://cruel-carlota.gopagoda.com/969b888541f7d6ce883776737ae69ed8 "githalytics.com")](http://githalytics.com/olihel/grunt-fetch-pages)
 
 <sub>**Credits**</sub>  
-<sub>Thanks to [SinnerSchrader](http://www.sinnerschrader.com/) for support and the time to work on this project.</sub>
+<sub>Thanks to [SinnerSchrader](http://www.sinnerschrader.com/) for support.</sub>
 
 <sub>**License**</sub>  
 <sub>The MIT License (MIT)</sub>  
