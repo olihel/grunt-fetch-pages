@@ -1,4 +1,4 @@
-# grunt-fetch-pages
+# grunt-fetch-pages [![NPM version](https://badge.fury.io/js/grunt-fetch-pages.png)](http://badge.fury.io/js/grunt-fetch-pages) [![Dependency Status](https://gemnasium.com/olihel/grunt-fetch-pages.png)](https://gemnasium.com/olihel/grunt-fetch-pages)
 
 > Grunt plugin for fetching URLs and saving the result as local files.
 
