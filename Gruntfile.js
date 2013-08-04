@@ -39,13 +39,16 @@ module.exports = function (grunt) {
       test: {
         options: {
           urls: [
-            {url: 'http://localhost:3003/url.html', localFile: 'url.html'},
+            // list of remote urls to fetch, local destination file name (localFile) required
             {url: 'http://localhost:3003/url.html', localFile: 'url.html'}
           ],
+          // base url for fetching pages via GruntJS files feature
           filesBaseURL: 'http://localhost:3003',
+          // local target folder for fetched pages
           target: 'test/www-fetched'
         },
         files: [
+          // matching file names are added to "filesBaseURL" for fetching
           {src: ['**/*.html', '!url.html'], expand: true, cwd: 'test/www-root/'}
         ]
       }
