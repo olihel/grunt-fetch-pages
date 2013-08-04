@@ -38,11 +38,15 @@ module.exports = function (grunt) {
     fetchpages: {
       test: {
         options: {
-          baseURL: 'http://localhost:3003',
+          urls: [
+            {url: 'http://localhost:3003/url.html', localFile: 'url.html'},
+            {url: 'http://localhost:3003/url.html', localFile: 'url.html'}
+          ],
+          filesBaseURL: 'http://localhost:3003',
           target: 'test/www-fetched'
         },
         files: [
-          {src: ['**/*.html'], expand: true, cwd: 'test/www-root/'}
+          {src: ['**/*.html', '!url.html'], expand: true, cwd: 'test/www-root/'}
         ]
       }
     },

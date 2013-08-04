@@ -12,6 +12,18 @@ module.exports = function (grunt) {
   var fs = require('fs');
 
 
+  var removeDuplicates = function (array) {
+    var i, j;
+    for (i = 0; i < array.length; ++i) {
+      for (j = i + 1; j < array.length; ++j) {
+        if (JSON.stringify(array[i]) === JSON.stringify(array[j])) {
+          array.splice(j--, 1);
+        }
+      }
+    }
+    return array;
+  };
+
   var createFilePathIfNotExistent = function (file) {
     var fileIndex = file.lastIndexOf('/');
     if (fileIndex !== -1) {
@@ -50,33 +62,52 @@ module.exports = function (grunt) {
     return pages;
   };
 
+  var getPagesFromURLs = function (urls, target) {
+    var pages = [];
+
+    urls.forEach(function (urlObj) {
+      var slash = ((target.charAt(target.length - 1) !== '/') && (urlObj.localFile.charAt(urlObj.localFile.length - 1) !== '/')) ? '/' : '';
+      var local = target + slash + urlObj.localFile;
+      pages.push({
+        local: local,
+        remote: urlObj.url
+      });
+    });
+
+    return pages;
+  };
 
   grunt.registerMultiTask('fetchpages', 'Fetch URLs and save the result as local files', function () {
     var request = require('request');
 
     var done = this.async();
     var options = this.options({
-      'target': ''
+      'target': '',
+      'urls': []
     });
 
-    if ((typeof options.baseURL === 'undefined') || (options.baseURL === '')) {
-      grunt.log.error('"baseURL" option is mandatory!');
+    if ((typeof options.filesBaseURL === 'undefined') || (options.filesBaseURL === '')) {
+      grunt.log.error('"filesBaseURL" option is mandatory!');
       return false;
     }
 
-    if (options.baseURL.substr(options.baseURL.length - 1) !== '/') {
-      options.baseURL += '/';
+    if (options.filesBaseURL.substr(options.filesBaseURL.length - 1) !== '/') {
+      options.filesBaseURL += '/';
     }
 
     if ((options.target !== '') && (options.target.substr(options.target.length - 1) !== '/')) {
       options.target += '/';
     }
 
-    var pages = getPagesFromFiles(this.files, options.baseURL, options.target);
+    var filesPages = getPagesFromFiles(this.files, options.filesBaseURL, options.target);
+    var urlsPages = getPagesFromURLs(options.urls, options.target);
+    var pages = removeDuplicates(filesPages.concat(urlsPages));
+
     var pagesFetched = 0;
+    grunt.verbose.writeln('Fetching pages...');
     pages.forEach(function (page) {
       request(page.remote, function (error, response, body) {
-        grunt.verbose.writeln(page.remote + ' -> ' + page.local);
+        grunt.verbose.writeln('... ' + page.remote + ' -> ' + page.local);
         if (!error && (response.statusCode === 200)) {
           createFilePathIfNotExistent(page.local);
           fs.writeFileSync(page.local, body);
