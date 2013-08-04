@@ -41,11 +41,18 @@ grunt.initConfig({
   fetchpages: {
     dist: {
       options: {
-        baseURL: 'http://localhost:3000',
-        target: 'dist/'
+        urls: [
+          // list of remote urls to fetch, local destination file name (localFile) required
+          {url: 'http://localhost:3003/url.html', localFile: 'url.html'}
+        ],
+        // base url for fetching pages via GruntJS files feature
+        filesBaseURL: 'http://localhost:3003',
+        // local target folder for fetched pages
+        target: 'test/www-fetched'
       },
       files: [
-        {src: ['**/*.html'], expand: true, cwd: 'prototype/'}
+        // matching file names are added to "filesBaseURL" for fetching
+        {src: ['**/*.html', '!url.html'], expand: true, cwd: 'test/www-root/'}
       ]
     }
   }
