@@ -63,6 +63,7 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+ * 2013-08-04   v0.2.1   dependencies updated
  * 2013-08-04   v0.2.0   fetching URL list added; option "baseURL" -> "filesBaseURL"
  * 2013-07-29   v0.1.3   Continuous integration tests vai Travis; dependencies updated
  * 2013-07-21   v0.1.2   Badges added
