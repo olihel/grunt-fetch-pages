@@ -24,14 +24,6 @@ module.exports = function (grunt) {
     return array;
   };
 
-  var createFilePathIfNotExistent = function (file) {
-    var fileIndex = file.lastIndexOf('/');
-    if (fileIndex !== -1) {
-      var path = file.substr(0, fileIndex);
-      fs.existsSync(path) || fs.mkdirSync(path);
-    }
-  };
-
 
   var getPagesFromFiles = function (files, baseURL, target) {
     var pages = [];
@@ -103,13 +95,25 @@ module.exports = function (grunt) {
     var urlsPages = getPagesFromURLs(options.urls, options.target);
     var pages = removeDuplicates(filesPages.concat(urlsPages));
 
-    var pagesFetched = 0;
+    grunt.verbose.writeln('Creating folders...');
+    pages.forEach(function (page) {
+      var fileIndex = page.local.lastIndexOf('/');
+      if (fileIndex !== -1) {
+        var path = page.local.substr(0, fileIndex);
+        if (!fs.existsSync(path)) {
+          console.log('  ', path);
+          fs.mkdirSync(path);
+        }
+      }
+    });
+
+
     grunt.verbose.writeln('Fetching pages...');
+    var pagesFetched = 0;
     pages.forEach(function (page) {
       request(page.remote, function (error, response, body) {
         grunt.verbose.writeln('... ' + page.remote + ' -> ' + page.local);
         if (!error && (response.statusCode === 200)) {
-          createFilePathIfNotExistent(page.local);
           fs.writeFileSync(page.local, body);
           ++pagesFetched;
           if (pagesFetched === pages.length) {
