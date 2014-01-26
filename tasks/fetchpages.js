@@ -112,7 +112,7 @@ module.exports = function (grunt) {
     var pagesFetched = 0;
     pages.forEach(function (page) {
       request(page.remote, function (error, response, body) {
-        grunt.verbose.writeln('... ' + page.remote + ' -> ' + page.local);
+        grunt.verbose.writeln('  ' + page.remote + ' -> ' + page.local + ' (' + body.length + ' Bytes)');
         if (!error && (response.statusCode === 200)) {
           fs.writeFileSync(page.local, body);
           ++pagesFetched;
