@@ -1,0 +1,25 @@
+# grunt-fetch-pages Release Notes
+
+### 0.2.2 (2014-01-26)
+ * unit testing large file
+ * dependencies updated
+
+### 0.2.1 (2013-08-20)
+ * dependencies updated
+
+### 0.2.0 (2013-08-04)
+ * fetching URL list added
+ * option "baseURL" -> "filesBaseURL"
+
+### 0.1.3 (2013-07-29)
+ * Continuous integration tests via Travis CI
+ * dependencies updated
+
+### 0.1.2 (2013-07-21)
+ * Badges added
+
+### 0.1.1 (2013-07-19)
+ * Unit tests added
+
+### 0.1.0 (2013-07-17)
+ * Initial version
