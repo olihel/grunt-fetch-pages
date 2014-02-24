@@ -12,7 +12,6 @@ module.exports = function (grunt) {
   var fs = require('fs');
   var path = require('path');
 
-
   var removeDuplicates = function (array) {
     var i, j;
     for (i = 0; i < array.length; ++i) {
@@ -24,7 +23,6 @@ module.exports = function (grunt) {
     }
     return array;
   };
-
 
   var getPagesFromFiles = function (files, baseURL) {
     var pages = [];
@@ -61,9 +59,46 @@ module.exports = function (grunt) {
     return pages;
   };
 
-  grunt.registerMultiTask('fetchpages', 'Fetch URLs and save the result as local files', function () {
-    var request = require('request');
+  var createFoldersForPages = function (pages) {
+    grunt.verbose.writeln('Creating folders...');
+    pages.forEach(function (page) {
+      var fileIndex = page.local.lastIndexOf('/');
+      if (fileIndex !== -1) {
+        var path = page.local.substr(0, fileIndex);
+        if (!fs.existsSync(path)) {
+          console.log('  ', path);
+          fs.mkdirSync(path);
+        }
+      }
+    });
+  };
 
+  var fetchPages = function (pages, done) {
+    grunt.verbose.writeln('Fetching pages...');
+    var pagesFetched = 0;
+    pages.forEach(function (page) {
+      var request = require('request');
+
+      request(page.remote, function (error, response, body) {
+        grunt.verbose.writeln('  ' + page.remote + ' -> ' + page.local);
+        if (!error && (response.statusCode === 200)) {
+          grunt.verbose.writeln('  -> ' + body.length + ' Bytes');
+          fs.writeFileSync(page.local, body);
+          ++pagesFetched;
+          if (pagesFetched === pages.length) {
+            done();
+          }
+        } else {
+          response && grunt.log.error('Response error, statusCode=', response.statusCode);
+          error && grunt.log.error(error);
+          response && response.body && grunt.log.error(response.body);
+          done(false);
+        }
+      });
+    });
+  };
+
+  grunt.registerMultiTask('fetchpages', 'Fetch URLs and save the result as local files', function () {
     var done = this.async();
     var options = this.options({
       'urlsDest': '',
@@ -89,38 +124,7 @@ module.exports = function (grunt) {
     var urlsPages = getPagesFromURLs(options.urls, options.urlsDest);
     var pages = removeDuplicates(filesPages.concat(urlsPages));
 
-    grunt.verbose.writeln('Creating folders...');
-    pages.forEach(function (page) {
-      var fileIndex = page.local.lastIndexOf('/');
-      if (fileIndex !== -1) {
-        var path = page.local.substr(0, fileIndex);
-        if (!fs.existsSync(path)) {
-          console.log('  ', path);
-          fs.mkdirSync(path);
-        }
-      }
-    });
-
-
-    grunt.verbose.writeln('Fetching pages...');
-    var pagesFetched = 0;
-    pages.forEach(function (page) {
-      request(page.remote, function (error, response, body) {
-        grunt.verbose.writeln('  ' + page.remote + ' -> ' + page.local);
-        if (!error && (response.statusCode === 200)) {
-          grunt.verbose.writeln('  -> ' + body.length + ' Bytes');
-          fs.writeFileSync(page.local, body);
-          ++pagesFetched;
-          if (pagesFetched === pages.length) {
-            done();
-          }
-        } else {
-          response && grunt.log.error('Response error, statusCode=', response.statusCode);
-          error && grunt.log.error(error);
-          response && response.body && grunt.log.error(response.body);
-          done(false);
-        }
-      });
-    });
+    createFoldersForPages(pages);
+    fetchPages(pages, done);
   });
 };
