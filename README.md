@@ -3,7 +3,7 @@
 > Grunt plugin for fetching URLs and saving the result as local files.
 
 ## Getting Started
-This plugin requires Grunt `~0.4.1`
+This plugin requires Grunt `~0.4.2`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -35,20 +35,36 @@ grunt.initConfig({
 })
 ```
 
+### Options
+
+#### baseURL
+Type: `String`  
+
+Base url for fetching remote pages via GruntJS "files" feature. Can be omitted when only the `urls` feature is used (see `urls` option). 
+
+#### urls
+Type: `Array`  
+
+An optional list of remote urls to fetch. Required properties per element:  
+- `url`: full remote URL to fetch  
+- `localFile`: local file name for fetched page (destination folder is defined by `urlsDest` option)
+
+#### urlsDest
+Type: `String`
+
+Local destination folder for fetched remote urls (see `urls` option)
+
 ### Usage Examples
 ```js
 grunt.initConfig({
   fetchpages: {
     dist: {
       options: {
+        baseURL: 'http://localhost:3003',
         urls: [
-          // list of remote urls to fetch, local destination file name (localFile) required
           {url: 'http://localhost:3003/url.html', localFile: 'url.html'}
         ],
-        // base url for fetching remote pages via GruntJS "files" feature
-        baseURL: 'http://localhost:3003',
-        // local target folder for fetched pages
-        target: 'test/www-fetched'
+        urlsDest: 'test/www-fetched'
       },
       files: [
         // matching file names will be prefixed with "baseURL" for fetching
