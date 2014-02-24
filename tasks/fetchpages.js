@@ -70,13 +70,15 @@ module.exports = function (grunt) {
       'urls': []
     });
 
-    if ((typeof options.baseURL === 'undefined') || (options.baseURL === '')) {
-      grunt.log.error('"baseURL" option is mandatory!');
-      return false;
-    }
+    if (this.files && this.files.length) {
+      if ((typeof options.baseURL === 'undefined') || (options.baseURL === '')) {
+        grunt.log.error('"baseURL" option is mandatory when files feature is used!');
+        done(false);
+      }
 
-    if (options.baseURL.substr(options.baseURL.length - 1) !== '/') {
-      options.baseURL += '/';
+      if (options.baseURL.substr(options.baseURL.length - 1) !== '/') {
+        options.baseURL += '/';
+      }
     }
 
     if ((options.target !== '') && (options.target.substr(options.target.length - 1) !== '/')) {
