@@ -46,12 +46,12 @@ module.exports = function (grunt) {
     return pages;
   };
 
-  var getPagesFromURLs = function (urls, target) {
+  var getPagesFromURLs = function (urls, dest) {
     var pages = [];
 
     urls.forEach(function (urlObj) {
-      var slash = ((target.charAt(target.length - 1) !== '/') && (urlObj.localFile.charAt(urlObj.localFile.length - 1) !== '/')) ? '/' : '';
-      var local = target + slash + urlObj.localFile;
+      var slash = ((dest.charAt(dest.length - 1) !== '/') && (urlObj.localFile.charAt(urlObj.localFile.length - 1) !== '/')) ? '/' : '';
+      var local = dest + slash + urlObj.localFile;
       pages.push({
         local: path.normalize(local),
         remote: urlObj.url
@@ -66,7 +66,7 @@ module.exports = function (grunt) {
 
     var done = this.async();
     var options = this.options({
-      'target': '',
+      'urlsDest': '',
       'urls': []
     });
 
@@ -81,12 +81,12 @@ module.exports = function (grunt) {
       }
     }
 
-    if ((options.target !== '') && (options.target.substr(options.target.length - 1) !== '/')) {
-      options.target += '/';
+    if ((options.urlsDest !== '') && (options.urlsDest.substr(options.urlsDest.length - 1) !== '/')) {
+      options.urlsDest += '/';
     }
 
     var filesPages = getPagesFromFiles(this.files, options.baseURL);
-    var urlsPages = getPagesFromURLs(options.urls, options.target);
+    var urlsPages = getPagesFromURLs(options.urls, options.urlsDest);
     var pages = removeDuplicates(filesPages.concat(urlsPages));
 
     grunt.verbose.writeln('Creating folders...');
