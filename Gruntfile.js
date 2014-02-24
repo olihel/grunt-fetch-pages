@@ -48,8 +48,19 @@ module.exports = function (grunt) {
           target: 'test/www-fetched'
         },
         files: [
-          // matching file names are added to "filesBaseURL" for fetching
-          {src: ['**/*.html', '!url.html'], expand: true, cwd: 'test/www-root/'}
+          // matching file names will be prefixed with "filesBaseURL" for fetching
+          {
+            src: ['**/*.html', '!url.html', '!not-expanded.html'],
+            dest: 'test/www-fetched',  // local target folder for fetched pages
+            expand: true,
+            cwd: 'test/www-root/'
+          },
+          {
+            src: ['not-expanded.html'],
+            dest: 'test/www-fetched',  // local target folder for fetched pages
+            expand: false,
+            cwd: 'test/www-root/'
+          }
         ]
       }
     },

@@ -8,6 +8,8 @@
 
 var FILE_ORIGINAL = 'test/www-root/index.html';
 var FILE_FETCHED = 'test/www-fetched/index.html';
+var FILE_FETCHED_EXPANDED = 'test/www-fetched/expanded.html';
+var FILE_FETCHED_NOTEXPANDED = 'test/www-fetched/not-expanded.html';
 var URL_ORIGINAL = 'test/www-root/url.html';
 var URL_FETCHED = 'test/www-fetched/url.html';
 
@@ -15,9 +17,11 @@ var fs = require('fs');
 
 exports.fetchpages = {
   checkFilesExist: function (test) {
-    test.expect(4);
+    test.expect(6);
     test.ok(fs.existsSync(FILE_ORIGINAL), 'original file exists');
     test.ok(fs.existsSync(FILE_FETCHED), 'fetched file exists');
+    test.ok(fs.existsSync(FILE_FETCHED_EXPANDED), 'fetched file exists');
+    test.ok(fs.existsSync(FILE_FETCHED_NOTEXPANDED), 'fetched file exists');
     test.ok(fs.existsSync(URL_ORIGINAL), 'original URL file exists');
     test.ok(fs.existsSync(URL_FETCHED), 'fetched URL file exists');
     test.done();

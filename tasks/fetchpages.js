@@ -10,6 +10,7 @@ module.exports = function (grunt) {
   'use strict';
 
   var fs = require('fs');
+  var path = require('path');
 
 
   var removeDuplicates = function (array) {
@@ -25,28 +26,19 @@ module.exports = function (grunt) {
   };
 
 
-  var getPagesFromFiles = function (files, baseURL, target) {
+  var getPagesFromFiles = function (files, baseURL) {
     var pages = [];
 
-    files.forEach(function (filePair) {
-      var isExpandedPair = filePair.orig.expand || false;
-
-      filePair.src.forEach(function (src) {
-        var local;
-        var remote;
-        if (isExpandedPair) {
-          local = src.substr(filePair.orig.cwd.length);
-          remote = baseURL + filePair.dest;
-        } else {
-          local = src;
-          remote = baseURL + filePair.dest + src;
+    files.forEach(function (file) {
+      file.src.forEach(function (src) {
+        var local = file.dest;
+        src = src.split(file.orig.cwd).join('');
+        if (!file.orig.expand) {
+          local = local + '/' + src;
         }
-
-        local = target + local;
-
         pages.push({
-          local: local,
-          remote: remote
+          local: path.normalize(local),
+          remote: baseURL + src
         });
       });
     });
@@ -61,7 +53,7 @@ module.exports = function (grunt) {
       var slash = ((target.charAt(target.length - 1) !== '/') && (urlObj.localFile.charAt(urlObj.localFile.length - 1) !== '/')) ? '/' : '';
       var local = target + slash + urlObj.localFile;
       pages.push({
-        local: local,
+        local: path.normalize(local),
         remote: urlObj.url
       });
     });
@@ -91,7 +83,7 @@ module.exports = function (grunt) {
       options.target += '/';
     }
 
-    var filesPages = getPagesFromFiles(this.files, options.filesBaseURL, options.target);
+    var filesPages = getPagesFromFiles(this.files, options.filesBaseURL);
     var urlsPages = getPagesFromURLs(options.urls, options.target);
     var pages = removeDuplicates(filesPages.concat(urlsPages));
 
@@ -112,8 +104,9 @@ module.exports = function (grunt) {
     var pagesFetched = 0;
     pages.forEach(function (page) {
       request(page.remote, function (error, response, body) {
-        grunt.verbose.writeln('  ' + page.remote + ' -> ' + page.local + ' (' + body.length + ' Bytes)');
+        grunt.verbose.writeln('  ' + page.remote + ' -> ' + page.local);
         if (!error && (response.statusCode === 200)) {
+          grunt.verbose.writeln('  -> ' + body.length + ' Bytes');
           fs.writeFileSync(page.local, body);
           ++pagesFetched;
           if (pagesFetched === pages.length) {
