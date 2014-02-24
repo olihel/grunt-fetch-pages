@@ -12,22 +12,60 @@ var FILE_FETCHED_EXPANDED = 'test/www-fetched/expanded.html';
 var FILE_FETCHED_NOTEXPANDED = 'test/www-fetched/not-expanded.html';
 var URL_ORIGINAL = 'test/www-root/url.html';
 var URL_FETCHED = 'test/www-fetched/url.html';
+var FILES_FETCHED_FOLLOWEDLINKS = [
+  'test/www-fetched/parsedlink1.html',
+  'test/www-fetched/parsedlink2-datalocalfile.html',
+  'test/www-fetched/parsedlink3.html',
+  'test/www-fetched/sub/parsedlink4.html',
+];
+var FILES_FETCHED_FOLLOWEDLINKS_IGNORED = 'test/www-fetched/parsedlink-ignored.html';
+var FILE_DUPLICATE_IGNORED = 'test/www-fetched/index-duplicate.html';
 
 var fs = require('fs');
 
 exports.fetchpages = {
-  checkFilesExist: function (test) {
-    test.expect(6);
+  checkIndexFilesExist: function (test) {
+    test.expect(2);
     test.ok(fs.existsSync(FILE_ORIGINAL), 'original file exists');
     test.ok(fs.existsSync(FILE_FETCHED), 'fetched file exists');
-    test.ok(fs.existsSync(FILE_FETCHED_EXPANDED), 'fetched file exists');
-    test.ok(fs.existsSync(FILE_FETCHED_NOTEXPANDED), 'fetched file exists');
+    test.done();
+  },
+
+  checkFilesFromURLsExist: function (test) {
+    test.expect(2);
     test.ok(fs.existsSync(URL_ORIGINAL), 'original URL file exists');
     test.ok(fs.existsSync(URL_FETCHED), 'fetched URL file exists');
     test.done();
   },
 
-  checkFilesContent: function (test) {
+  checkExpandedFilesExist: function (test) {
+    test.expect(2);
+    test.ok(fs.existsSync(FILE_FETCHED_EXPANDED), 'fetched file exists');
+    test.ok(fs.existsSync(FILE_FETCHED_NOTEXPANDED), 'fetched file exists');
+    test.done();
+  },
+
+  checkFollowedLinksFilesExist: function (test) {
+    test.expect(FILES_FETCHED_FOLLOWEDLINKS.length);
+    FILES_FETCHED_FOLLOWEDLINKS.forEach(function (file, index) {
+      test.ok(fs.existsSync(file), 'followed link #' + (index + 1) + ' file exists');
+    });
+    test.done();
+  },
+
+  checkFollowedLinksIgnoredFilesDontExist: function (test) {
+    test.expect(1);
+    test.ok(!fs.existsSync(FILES_FETCHED_FOLLOWEDLINKS_IGNORED), 'followed link ignored file does not exist');
+    test.done();
+  },
+
+  checkDuplicateFileDoesntExist: function (test) {
+    test.expect(1);
+    test.ok(!fs.existsSync(FILE_DUPLICATE_IGNORED), 'duplicate file does not exist');
+    test.done();
+  },
+
+  checkIndexFilesContent: function (test) {
     var contentOriginal, contentFetched;
 
     test.expect(3);

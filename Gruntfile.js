@@ -42,18 +42,19 @@ module.exports = function (grunt) {
           urls: [
             {url: 'http://localhost:3003/url.html', localFile: 'url.html'}
           ],
-          urlsDest: 'test/www-fetched'
+          urlsDest: 'test/www-fetched',
+          followLinksSelector: 'a[rel!="nofollow"]'
         },
         files: [
           // matching file names will be prefixed with "baseURL" for fetching
           {
-            src: ['**/*.html', '!url.html', '!not-expanded.html'],
+            src: ['**/*.html', '!url.html', '!not-expanded.html', '!**/parsedlink*.html'],
             dest: 'test/www-fetched',  // local target folder for fetched pages
             expand: true,
             cwd: 'test/www-root/'
           },
           {
-            src: ['not-expanded.html'],
+            src: ['not-expanded.html', '!**/parsedlink*.html'],
             dest: 'test/www-fetched',  // local target folder for fetched pages
             expand: false,
             cwd: 'test/www-root/'

@@ -11,6 +11,8 @@ module.exports = function (grunt) {
 
   var fs = require('fs');
   var path = require('path');
+  var request = require('request');
+  var jsdom = require('jsdom');
 
   var removeDuplicates = function (array) {
     var i, j;
@@ -22,6 +24,16 @@ module.exports = function (grunt) {
       }
     }
     return array;
+  };
+
+  var hasRemoteURL = function (pages, url) {
+    var len = pages.length;
+    for (var i = 0; i < len; i++) {
+      if (pages[i].remote === url) {
+        return true;
+      }
+    }
+    return false;
   };
 
   var getPagesFromFiles = function (files, baseURL) {
@@ -73,20 +85,54 @@ module.exports = function (grunt) {
     });
   };
 
-  var fetchPages = function (pages, done) {
+  var fetchPages = function (pages, done, options) {
     grunt.verbose.writeln('Fetching pages...');
     var pagesFetched = 0;
-    pages.forEach(function (page) {
-      var request = require('request');
+    var followPages = [];
 
+    pages = removeDuplicates(pages);
+    createFoldersForPages(pages);
+
+    pages.forEach(function (page) {
       request(page.remote, function (error, response, body) {
         grunt.verbose.writeln('  ' + page.remote + ' -> ' + page.local);
         if (!error && (response.statusCode === 200)) {
           grunt.verbose.writeln('  -> ' + body.length + ' Bytes');
           fs.writeFileSync(page.local, body);
-          ++pagesFetched;
-          if (pagesFetched === pages.length) {
-            done();
+
+          if (options.followLinksSelector) {
+            jsdom.env(
+              body,
+              ['http://code.jquery.com/jquery.js'],
+              function (errors, window) {
+                window.$(options.followLinksSelector).each(function () {
+                  var $this = window.$(this);
+                  var href = $this.attr('href');
+                  var localFile = $this.data('localfile') || href;
+                  var url = options.baseURL + href;
+                  if (!hasRemoteURL(pages, url)) {
+                    followPages.push({
+                      local: options.urlsDest + localFile,
+                      remote: url
+                    });
+                  }
+                });
+                ++pagesFetched;
+                if (pagesFetched === pages.length) {
+                  if (followPages.length) {
+                    grunt.verbose.writeln('Following links...');
+                    fetchPages(followPages, done, {});
+                  } else {
+                    done();
+                  }
+                }
+              }
+            );
+          } else {
+            ++pagesFetched;
+            if (pagesFetched === pages.length) {
+              done();
+            }
           }
         } else {
           response && grunt.log.error('Response error, statusCode=', response.statusCode);
@@ -107,7 +153,7 @@ module.exports = function (grunt) {
 
     if (this.files && this.files.length) {
       if ((typeof options.baseURL === 'undefined') || (options.baseURL === '')) {
-        grunt.log.error('"baseURL" option is mandatory when files feature is used!');
+        grunt.log.error('"baseURL" option is mandatory when "files" or "followLinksSelector" feature is used!');
         done(false);
       }
 
@@ -122,9 +168,6 @@ module.exports = function (grunt) {
 
     var filesPages = getPagesFromFiles(this.files, options.baseURL);
     var urlsPages = getPagesFromURLs(options.urls, options.urlsDest);
-    var pages = removeDuplicates(filesPages.concat(urlsPages));
-
-    createFoldersForPages(pages);
-    fetchPages(pages, done);
+    fetchPages(filesPages.concat(urlsPages), done, options);
   });
 };

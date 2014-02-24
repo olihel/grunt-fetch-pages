@@ -28,7 +28,8 @@
     "test": "grunt test --verbose"
   },
   "dependencies": {
-    "request": "^2.34.0"
+    "request": "^2.34.0",
+    "jsdom": "^0.10.1"
   },
   "devDependencies": {
     "grunt": "^0.4.2",
