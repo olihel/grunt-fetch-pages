@@ -103,7 +103,7 @@ module.exports = function (grunt) {
           if (options.followLinksSelector) {
             jsdom.env(
               body,
-              ['http://code.jquery.com/jquery.js'],
+              [require.resolve('jquery')],
               function (errors, window) {
                 window.$(options.followLinksSelector).each(function () {
                   var $this = window.$(this);

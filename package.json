@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "request": "^2.34.0",
-    "jsdom": "^0.10.1"
+    "jsdom": "^0.10.1",
+    "jquery": "^2.1.0"
   },
   "devDependencies": {
     "grunt": "^0.4.2",
