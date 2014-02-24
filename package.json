@@ -28,7 +28,7 @@
     "test": "grunt test --verbose"
   },
   "dependencies": {
-    "request": "~2.33.0"
+    "request": "^2.34.0"
   },
   "devDependencies": {
     "grunt": "^0.4.2",
@@ -38,7 +38,7 @@
     "grunt-contrib-clean": "^0.5.0"
   },
   "peerDependencies": {
-    "grunt": "~0.4.1"
+    "grunt": "^0.4.2"
   },
   "keywords": [
     "gruntplugin",
