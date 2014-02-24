@@ -70,20 +70,20 @@ module.exports = function (grunt) {
       'urls': []
     });
 
-    if ((typeof options.filesBaseURL === 'undefined') || (options.filesBaseURL === '')) {
-      grunt.log.error('"filesBaseURL" option is mandatory!');
+    if ((typeof options.baseURL === 'undefined') || (options.baseURL === '')) {
+      grunt.log.error('"baseURL" option is mandatory!');
       return false;
     }
 
-    if (options.filesBaseURL.substr(options.filesBaseURL.length - 1) !== '/') {
-      options.filesBaseURL += '/';
+    if (options.baseURL.substr(options.baseURL.length - 1) !== '/') {
+      options.baseURL += '/';
     }
 
     if ((options.target !== '') && (options.target.substr(options.target.length - 1) !== '/')) {
       options.target += '/';
     }
 
-    var filesPages = getPagesFromFiles(this.files, options.filesBaseURL);
+    var filesPages = getPagesFromFiles(this.files, options.baseURL);
     var urlsPages = getPagesFromURLs(options.urls, options.target);
     var pages = removeDuplicates(filesPages.concat(urlsPages));
 
