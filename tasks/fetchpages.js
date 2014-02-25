@@ -9,7 +9,7 @@
 module.exports = function (grunt) {
   'use strict';
 
-  var fetchPages = require('./lib/fetchpages');
+  var fetchPages = require('./lib/fetchPages');
   var getPagesFromFiles = require('./lib/getPagesFromFiles');
   var getPagesFromURLs = require('./lib/getPagesFromURLs');
 
