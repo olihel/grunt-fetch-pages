@@ -40,19 +40,34 @@ grunt.initConfig({
 #### baseURL
 Type: `String`  
 
-Base url for fetching remote pages via GruntJS "files" feature. Can be omitted when only the `urls` feature is used (see `urls` option). 
+Base url for fetching remote pages via GruntJS "files" feature. Can be omitted when using only the `urls` feature (see `urls` option). 
+
+#### destinationFolder
+Type: `String`  
+Required: yes
+
+Local destination folder for fetched remote urls. This option is mandatory.
 
 #### urls
 Type: `Array`  
+Default: `[]´
 
 An optional list of remote urls to fetch. Required properties per element:  
 - `url`: full remote URL to fetch  
 - `localFile`: local file name for fetched page (destination folder is defined by `urlsDest` option)
 
-#### urlsDest
-Type: `String`
+#### followLinks
+Type: `Boolean`  
+Default: ´true´
 
-Local destination folder for fetched remote urls (see `urls` option)
+Also fetch sub pages referenced via links (`<a href="">`). No fetching of links within sub pages at this time.
+
+#### ignoreSelector
+Type: `String`  
+Default: `[rel="nofollow"]`
+
+Selector for ignoring certain links when following (see `followLinks` option). The default value matches links with the "rel" attribute set to "nofollow": `<a href="" rel="nofollow">`.  
+The selector is applied as `$('a:not(ignoreSelector)')`, e.g. `$('a:not([rel="nofollow"])')`
 
 ### Usage Examples
 ```js
