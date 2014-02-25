@@ -32,7 +32,7 @@ grunt.initConfig({
       // Target-specific file lists and/or options go here.
     },
   },
-})
+});
 ```
 
 ### Options
@@ -70,19 +70,38 @@ Selector for ignoring certain links when following (see `followLinks` option). T
 The selector is applied as `$('a:not(ignoreSelector)')`, e.g. `$('a:not([rel="nofollow"])')`
 
 ### Usage Examples
+
+Simple example, fetch base URL and follow links:
+
 ```js
 grunt.initConfig({
   fetchpages: {
     dist: {
       options: {
-        baseURL: 'http://localhost:3003',
+        baseURL: 'http://localhost:3000',
+        destinationFolder: 'test/www-fetched',
+      }
+    }
+  }
+});
+```
+
+Full example with all feasible options set:
+
+```js
+grunt.initConfig({
+  fetchpages: {
+    dist: {
+      options: {
+        baseURL: 'http://localhost:3000',
+        destinationFolder: 'test/www-fetched',
         urls: [
           {url: 'http://localhost:3003/url.html', localFile: 'url.html'}
         ],
-        urlsDest: 'test/www-fetched'
+        followLinks: true,
+        ignoreSelector: '[rel="nofollow"]'
       },
       files: [
-        // matching file names will be prefixed with "baseURL" for fetching
         {
           src: ['**/*.html', '!url.html'],
           dest: 'test/www-fetched',  // local target folder for fetched pages
@@ -92,7 +111,7 @@ grunt.initConfig({
       ]
     }
   }
-})
+});
 ```
 
 ## Contributing
