@@ -13,42 +13,42 @@ module.exports = function (grunt) {
   var path = require('path');
   var request = require('request');
   var jsdom = require('jsdom');
+  var url = require('url');
 
-  var removeDuplicates = function (array) {
+  var removeDuplicates = function (pages) {
     var i, j;
-    for (i = 0; i < array.length; ++i) {
-      for (j = i + 1; j < array.length; ++j) {
-        if (JSON.stringify(array[i]) === JSON.stringify(array[j])) {
-          array.splice(j--, 1);
+    for (i = 0; i < pages.length; ++i) {
+      for (j = i + 1; j < pages.length; ++j) {
+        if ((pages[i].local === pages[j].local) || (pages[i].remote === pages[j].remote)) {
+          grunt.log.warn('skipping duplicate page ' + JSON.stringify(pages[j]));
+          pages.splice(j--, 1);
         }
       }
     }
-    return array;
+    return pages;
   };
 
-  var hasRemoteURL = function (pages, url) {
+  var hasPage = function (page, pages) {
     var len = pages.length;
     for (var i = 0; i < len; i++) {
-      if (pages[i].remote === url) {
+      if ((pages[i].local === page.local) || (pages[i].remote === page.remote)) {
         return true;
       }
     }
     return false;
   };
 
-  var getPagesFromFiles = function (files, baseURL) {
+  var getPagesFromFiles = function (files, options) {
     var pages = [];
 
     files.forEach(function (file) {
       file.src.forEach(function (src) {
-        var local = file.dest;
+        var local = options.destinationFolder;
         src = src.split(file.orig.cwd).join('');
-        if (!file.orig.expand) {
-          local = local + '/' + src;
-        }
+        local = local + '/' + src;
         pages.push({
           local: path.normalize(local),
-          remote: baseURL + src
+          remote: options.baseURL + src
         });
       });
     });
@@ -56,12 +56,11 @@ module.exports = function (grunt) {
     return pages;
   };
 
-  var getPagesFromURLs = function (urls, dest) {
+  var getPagesFromURLs = function (options) {
     var pages = [];
 
-    urls.forEach(function (urlObj) {
-      var slash = ((dest.charAt(dest.length - 1) !== '/') && (urlObj.localFile.charAt(urlObj.localFile.length - 1) !== '/')) ? '/' : '';
-      var local = dest + slash + urlObj.localFile;
+    options.urls.forEach(function (urlObj) {
+      var local = options.destinationFolder + urlObj.localFile;
       pages.push({
         local: path.normalize(local),
         remote: urlObj.url
@@ -100,21 +99,28 @@ module.exports = function (grunt) {
           grunt.verbose.writeln('  -> ' + body.length + ' Bytes');
           fs.writeFileSync(page.local, body);
 
-          if (options.followLinksSelector) {
+          if (options.followLinks) {
             jsdom.env(
               body,
               [require.resolve('jquery')],
               function (errors, window) {
-                window.$(options.followLinksSelector).each(function () {
+                window.$('a:not(' + options.ignoreSelector + ')').each(function () {
                   var $this = window.$(this);
                   var href = $this.attr('href');
-                  var localFile = $this.data('localfile') || href;
-                  var url = options.baseURL + href;
-                  if (!hasRemoteURL(pages, url)) {
-                    followPages.push({
-                      local: options.urlsDest + localFile,
-                      remote: url
-                    });
+                  var localFile = $this.data('localfile') || url.parse(href).pathname;
+                  if (!localFile) {
+                    grunt.log.warn('skipping url with invalid pathname (' + href + ')');
+                    return;
+                  }
+                  var remoteURL = options.baseURL + href;
+                  var newPage = {
+                    local: options.destinationFolder + localFile,
+                    remote: remoteURL
+                  };
+                  if (hasPage(newPage, pages)) {
+                    grunt.log.warn('skipping duplicate page ' + JSON.stringify(newPage));
+                  } else {
+                    followPages.push(newPage);
                   }
                 });
                 ++pagesFetched;
@@ -146,28 +152,45 @@ module.exports = function (grunt) {
 
   grunt.registerMultiTask('fetchpages', 'Fetch URLs and save the result as local files', function () {
     var done = this.async();
+    var pages = [];
     var options = this.options({
-      'urlsDest': '',
-      'urls': []
+      'urls': [],
+      'followLinks': true,
+      'ignoreSelector': '[rel="nofollow"]'
     });
+
+    if (!options.destinationFolder) {
+      grunt.log.error('"destinationFolder" option is mandatory!');
+      done(false);
+    }
 
     if (this.files && this.files.length) {
       if ((typeof options.baseURL === 'undefined') || (options.baseURL === '')) {
-        grunt.log.error('"baseURL" option is mandatory when "files" or "followLinksSelector" feature is used!');
+        grunt.log.error('"baseURL" option is mandatory when "files" feature is used!');
         done(false);
       }
-
-      if (options.baseURL.substr(options.baseURL.length - 1) !== '/') {
-        options.baseURL += '/';
-      }
     }
 
-    if ((options.urlsDest !== '') && (options.urlsDest.substr(options.urlsDest.length - 1) !== '/')) {
-      options.urlsDest += '/';
+    // ensure that baseURL ends with a slash
+    if (options.baseURL && options.baseURL.substr(options.baseURL.length - 1) !== '/') {
+      options.baseURL += '/';
     }
 
-    var filesPages = getPagesFromFiles(this.files, options.baseURL);
-    var urlsPages = getPagesFromURLs(options.urls, options.urlsDest);
-    fetchPages(filesPages.concat(urlsPages), done, options);
+    // ensure that destinationFolder path ends with a slash
+    if (options.destinationFolder && options.destinationFolder.substr(options.destinationFolder.length - 1) !== '/') {
+      options.destinationFolder += '/';
+    }
+
+    if (options.baseURL) {
+      var pathname = url.parse(options.baseURL).pathname;
+      options.urls.push({
+        localFile: pathname === '/' ? 'index.html' : pathname,
+        url: options.baseURL
+      });
+    }
+
+    pages = getPagesFromFiles(this.files, options);
+    pages = pages.concat(getPagesFromURLs(options));
+    fetchPages(pages, done, options);
   });
 };
