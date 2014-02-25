@@ -50,7 +50,7 @@ Local destination folder for fetched remote urls. This option is mandatory.
 
 #### urls
 Type: `Array`  
-Default: `[]´
+Default: `[]`
 
 An optional list of remote urls to fetch. Required properties per element:  
 - `url`: full remote URL to fetch  
@@ -58,7 +58,7 @@ An optional list of remote urls to fetch. Required properties per element:
 
 #### followLinks
 Type: `Boolean`  
-Default: ´true´
+Default: `true`
 
 Also fetch sub pages referenced via links (`<a href="">`). No fetching of links within sub pages at this time.
 
@@ -104,7 +104,6 @@ grunt.initConfig({
       files: [
         {
           src: ['**/*.html', '!url.html'],
-          dest: 'test/www-fetched',  // local target folder for fetched pages
           expand: true,
           cwd: 'test/www-root/'
         }
