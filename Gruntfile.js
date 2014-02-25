@@ -39,10 +39,12 @@ module.exports = function (grunt) {
       test: {
         options: {
           baseURL: 'http://localhost:3003',
+          destinationFolder: 'test/www-fetched',
           urls: [
             {url: 'http://localhost:3003/url.html', localFile: 'url.html'}
           ],
-          destinationFolder: 'test/www-fetched'
+          followLinks: true,
+          ignoreSelector: '[rel="nofollow"]'
         },
         files: [
           // matching file names will be prefixed with "baseURL" for fetching
