@@ -69,6 +69,12 @@ Default: `[rel="nofollow"]`
 Selector for ignoring certain links when following (see `followLinks` option). The default value matches links with the "rel" attribute set to "nofollow": `<a href="" rel="nofollow">`.  
 The selector is applied as `$('a:not(ignoreSelector)')`, e.g. `$('a:not([rel="nofollow"])')`
 
+#### cleanHTML
+Type: `Boolean`  
+Default: `false`
+
+Clean fetched pages via [htmlclean](https://github.com/anseki/htmlclean) node module, removing unneeded whitespaces, line-breaks, comments, etc.
+
 ### Usage Examples
 
 Simple example, fetch base URL and follow links:
@@ -99,7 +105,8 @@ grunt.initConfig({
           {url: 'http://localhost:3003/url.html', localFile: 'url.html'}
         ],
         followLinks: true,
-        ignoreSelector: '[rel="nofollow"]'
+        ignoreSelector: '[rel="nofollow"]',
+        cleanHTML: false
       },
       files: [
         {

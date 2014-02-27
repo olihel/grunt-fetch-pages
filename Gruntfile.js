@@ -36,7 +36,7 @@ module.exports = function (grunt) {
     },
 
     fetchpages: {
-      test: {
+      noclean: {
         options: {
           baseURL: 'http://localhost:3003',
           destinationFolder: 'test/www-fetched',
@@ -44,12 +44,12 @@ module.exports = function (grunt) {
             {url: 'http://localhost:3003/url.html', localFile: 'url.html'}
           ],
           followLinks: true,
-          ignoreSelector: '[rel="nofollow"]'
+          ignoreSelector: '[rel="nofollow"]',
+          cleanHTML: false
         },
         files: [
-          // matching file names will be prefixed with "baseURL" for fetching
           {
-            src: ['**/*.html', '!url.html', '!not-expanded.html', '!**/parsedlink*.html'],
+            src: ['**/*.html', '!url.html', '!not-expanded.html', '!**/parsedlink*.html', '!clean.html', '!clean-cleaned.html'],
             expand: true,
             cwd: 'test/www-root/'
           },
@@ -59,6 +59,15 @@ module.exports = function (grunt) {
             cwd: 'test/www-root/'
           }
         ]
+      },
+
+      clean: {
+        options: {
+          baseURL: 'http://localhost:3003/clean.html',
+          destinationFolder: 'test/www-fetched',
+          followLinks: false,
+          cleanHTML: true
+        }
       }
     },
 
@@ -74,7 +83,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-  grunt.registerTask('test', ['jshint', 'clean:test', 'express:test', 'fetchpages:test', 'nodeunit:test']);
+  grunt.registerTask('test', ['jshint', 'clean:test', 'express:test', 'fetchpages', 'nodeunit:test']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['test']);

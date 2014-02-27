@@ -9,6 +9,7 @@
 'use strict';
 
 var path = require('path');
+var url = require('url');
 
 module.exports = function getPagesFromFiles(files, baseURL, destinationFolder) {
   var pages = [];
@@ -20,7 +21,7 @@ module.exports = function getPagesFromFiles(files, baseURL, destinationFolder) {
       local = local + '/' + src;
       pages.push({
         local: path.normalize(local),
-        remote: baseURL + src
+        remote: url.resolve(baseURL, src)
       });
     });
   });

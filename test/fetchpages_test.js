@@ -20,6 +20,8 @@ var FILES_FETCHED_FOLLOWEDLINKS = [
 ];
 var FILES_FETCHED_FOLLOWEDLINKS_IGNORED = 'test/www-fetched/parsedlink-ignored.html';
 var FILE_DUPLICATE_IGNORED = 'test/www-fetched/index-duplicate.html';
+var FILE_ORIGINAL_CLEANED = 'test/www-root/clean-cleaned.html';
+var FILE_FETCHED_CLEANED = 'test/www-fetched/clean.html';
 
 var fs = require('fs');
 
@@ -65,6 +67,12 @@ exports.fetchpages = {
     test.done();
   },
 
+  checkCleanedFileExists: function (test) {
+    test.expect(1);
+    test.ok(fs.existsSync(FILE_FETCHED_CLEANED), 'cleaned file exists');
+    test.done();
+  },
+
   checkIndexFilesContent: function (test) {
     var contentOriginal, contentFetched;
 
@@ -73,6 +81,26 @@ exports.fetchpages = {
     try {
       contentOriginal = fs.readFileSync(FILE_ORIGINAL, 'utf8');
       contentFetched = fs.readFileSync(FILE_FETCHED, 'utf8');
+    } catch (e) {
+      console.log('ERROR: ', e);
+    }
+
+    test.ok(typeof contentOriginal !== 'undefined', 'original file content read');
+    test.ok(typeof contentFetched !== 'undefined', 'fetched file content read');
+
+    test.ok(contentOriginal === contentFetched, 'file contents match');
+
+    test.done();
+  },
+
+  checkCleanedFileContent: function (test) {
+    var contentOriginal, contentFetched;
+
+    test.expect(3);
+
+    try {
+      contentOriginal = fs.readFileSync(FILE_ORIGINAL_CLEANED, 'utf8');
+      contentFetched = fs.readFileSync(FILE_FETCHED_CLEANED, 'utf8');
     } catch (e) {
       console.log('ERROR: ', e);
     }

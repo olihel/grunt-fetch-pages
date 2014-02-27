@@ -15,8 +15,9 @@ var url = require('url');
 var removeDuplicates = require('./removeDuplicates');
 var createFoldersForPages = require('./createFoldersForPages');
 var hasPage = require('./hasPage');
+var htmlclean = require('htmlclean');
 
-module.exports = function fetchPages(pages, done, baseURL, destinationFolder, followLinks, ignoreSelector) {
+module.exports = function fetchPages(pages, done, baseURL, destinationFolder, followLinks, ignoreSelector, cleanHTML) {
   var pagesFetched = 0;
   var followPages = [];
 
@@ -30,6 +31,11 @@ module.exports = function fetchPages(pages, done, baseURL, destinationFolder, fo
       console.log('  ' + page.remote + ' -> ' + page.local);
       if (!error && (response.statusCode === 200)) {
         console.log('  -> ' + body.length + ' Bytes');
+
+        if (cleanHTML) {
+          body = htmlclean(body);
+        }
+
         fs.writeFileSync(page.local, body);
 
         if (followLinks) {
@@ -45,7 +51,7 @@ module.exports = function fetchPages(pages, done, baseURL, destinationFolder, fo
                   console.warn('skipping url with invalid pathname (' + href + ')');
                   return;
                 }
-                var remoteURL = baseURL + href;
+                var remoteURL = url.resolve(baseURL, href);
                 var newPage = {
                   local: destinationFolder + localFile,
                   remote: remoteURL

@@ -21,7 +21,8 @@ module.exports = function (grunt) {
     var options = this.options({
       'urls': [],
       'followLinks': true,
-      'ignoreSelector': '[rel="nofollow"]'
+      'ignoreSelector': '[rel="nofollow"]',
+      'cleanHTML': false
     });
 
     var destinationFolder = options.destinationFolder;
@@ -29,6 +30,7 @@ module.exports = function (grunt) {
     var urls = options.urls;
     var followLinks = options.followLinks;
     var ignoreSelector = options.ignoreSelector;
+    var cleanHTML = options.cleanHTML;
 
     if (!destinationFolder) {
       grunt.log.error('"destinationFolder" option is mandatory!');
@@ -40,11 +42,6 @@ module.exports = function (grunt) {
         grunt.log.error('"baseURL" option is mandatory when "files" feature is used!');
         done(false);
       }
-    }
-
-    // ensure that baseURL ends with a slash
-    if (baseURL && baseURL.substr(baseURL.length - 1) !== '/') {
-      baseURL += '/';
     }
 
     // ensure that destinationFolder path ends with a slash
@@ -62,6 +59,6 @@ module.exports = function (grunt) {
 
     pages = getPagesFromFiles(this.files, baseURL, destinationFolder);
     pages = pages.concat(getPagesFromURLs(destinationFolder, urls));
-    fetchPages(pages, done, baseURL, destinationFolder, followLinks, ignoreSelector);
+    fetchPages(pages, done, baseURL, destinationFolder, followLinks, ignoreSelector, cleanHTML);
   });
 };
