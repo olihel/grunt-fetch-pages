@@ -25,7 +25,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "grunt test --verbose"
+    "test": "grunt --verbose"
   },
   "dependencies": {
     "request": "^2.34.0",
