@@ -121,7 +121,7 @@ grunt.initConfig({
 ```
 
 ## Contributing
-Take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+Take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Do not submit code that did not pass the default grunt task for linting and testing.
 
 [![githalytics.com alpha](https://cruel-carlota.gopagoda.com/969b888541f7d6ce883776737ae69ed8 "githalytics.com")](http://githalytics.com/olihel/grunt-fetch-pages)
 

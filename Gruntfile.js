@@ -83,8 +83,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-  grunt.registerTask('test', ['jshint', 'clean:test', 'express:test', 'fetchpages', 'nodeunit:test']);
-
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['test']);
+  grunt.registerTask('default', ['jshint', 'clean', 'express', 'fetchpages', 'nodeunit']);
 };
