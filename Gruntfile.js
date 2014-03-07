@@ -54,7 +54,7 @@ module.exports = function (grunt) {
             cwd: 'test/www-root/'
           },
           {
-            src: ['not-expanded.html', '!**/parsedlink*.html'],
+            src: ['not-expanded.html'],
             expand: false,
             cwd: 'test/www-root/'
           }
