@@ -45,11 +45,12 @@ module.exports = function (grunt) {
           ],
           followLinks: true,
           ignoreSelector: '[rel="nofollow"]',
-          cleanHTML: false
+          cleanHTML: false,
+          fetchBaseURL: true
         },
         files: [
           {
-            src: ['**/*.html', '!url.html', '!not-expanded.html', '!**/parsedlink*.html', '!clean.html', '!clean-cleaned.html'],
+            src: ['**/*.html', '!url.html', '!not-expanded.html', '!**/parsedlink*.html', '!clean.html', '!clean-cleaned.html', '!index.html'],
             expand: true,
             cwd: 'test/www-root/'
           },

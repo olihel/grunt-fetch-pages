@@ -22,7 +22,8 @@ module.exports = function (grunt) {
       'urls': [],
       'followLinks': true,
       'ignoreSelector': '[rel="nofollow"]',
-      'cleanHTML': false
+      'cleanHTML': false,
+      'fetchBaseURL': true
     });
 
     var destinationFolder = options.destinationFolder;
@@ -31,6 +32,7 @@ module.exports = function (grunt) {
     var followLinks = options.followLinks;
     var ignoreSelector = options.ignoreSelector;
     var cleanHTML = options.cleanHTML;
+    var fetchBaseURL = options.fetchBaseURL;
 
     if (!destinationFolder) {
       grunt.log.error('"destinationFolder" option is mandatory!');
@@ -49,11 +51,11 @@ module.exports = function (grunt) {
       destinationFolder += '/';
     }
 
-    if (baseURL) {
-      var pathname = url.parse(baseURL).pathname;
+    if (baseURL && fetchBaseURL) {
+      var parsedBaseURL = url.parse(baseURL);
       urls.push({
-        localFile: pathname === '/' ? 'index.html' : pathname,
-        url: baseURL
+        localFile: parsedBaseURL.pathname === '/' ? 'index.html' : parsedBaseURL.pathname,
+        url: parsedBaseURL.href
       });
     }
 

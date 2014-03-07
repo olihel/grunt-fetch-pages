@@ -75,6 +75,12 @@ Default: `false`
 
 Clean fetched pages via [htmlclean](https://github.com/anseki/htmlclean) node module, removing unneeded whitespaces, line-breaks, comments, etc.
 
+#### fetchBaseURL
+Type: `Boolean`  
+Default: `true`
+
+Do not fetch the `baseURL` when this option is set to `false`.
+
 ### Usage Examples
 
 Simple example, fetch base URL and follow links:
@@ -106,7 +112,8 @@ grunt.initConfig({
         ],
         followLinks: true,
         ignoreSelector: '[rel="nofollow"]',
-        cleanHTML: false
+        cleanHTML: false,
+        fetchBaseURL: true
       },
       files: [
         {
