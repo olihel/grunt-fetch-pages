@@ -1,5 +1,13 @@
 # grunt-fetch-pages Release Notes
 
+### 1.0.0 (2014-03-07)
+ * API change: "filesBaseURL" renamed to "baseURL"
+ * API change: "target" option renamed to "destinationFolder"
+ * added "followLinks" option for fetched pages
+ * added "ignoreSelector" option
+ * added "cleanHTML" option
+ * added "fetchBaseURL" option
+
 ### 0.2.2 (2014-01-26)
  * unit testing large file
  * dependencies updated
