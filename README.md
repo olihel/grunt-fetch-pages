@@ -54,7 +54,7 @@ Default: `[]`
 
 An optional list of remote urls to fetch. Required properties per element:  
 - `url`: full remote URL to fetch  
-- `localFile`: local file name for fetched page (destination folder is defined by `urlsDest` option)
+- `localFile`: local file name for fetched page (destination folder is defined by `destinationFolder` option)
 
 #### followLinks
 Type: `Boolean`  
