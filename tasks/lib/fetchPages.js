@@ -46,6 +46,10 @@ module.exports = function fetchPages(pages, done, baseURL, destinationFolder, fo
               window.$('a:not(' + ignoreSelector + ')').each(function () {
                 var $this = window.$(this);
                 var href = $this.attr('href');
+                if (!href) {
+                  console.warn('following links: skipping link with missing href attribute (' + this.outerHTML + ')');
+                  return;
+                }
                 var localFile = $this.data('localfile') || url.parse(href).pathname;
                 if (!localFile) {
                   console.warn('skipping url with invalid pathname (' + href + ')');
