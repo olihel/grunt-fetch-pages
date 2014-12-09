@@ -28,17 +28,17 @@
     "test": "grunt --verbose"
   },
   "dependencies": {
-    "request": "^2.34.0",
-    "jsdom": "^0.10.1",
+    "htmlclean": "^2.0.0",
     "jquery": "^2.1.0",
-    "htmlclean": "^2.0.0"
+    "jsdom": "^1.4.1",
+    "request": "^2.34.0"
   },
   "devDependencies": {
     "grunt": "^0.4.2",
-    "grunt-contrib-jshint": "^0.8.0",
-    "grunt-contrib-nodeunit": "^0.3.2",
-    "grunt-express": "^1.2.1",
-    "grunt-contrib-clean": "^0.5.0"
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-express": "^1.2.1"
   },
   "peerDependencies": {
     "grunt": "^0.4.2"
