@@ -1,5 +1,10 @@
 # grunt-fetch-pages Release Notes
 
+### 1.0.1 (2014-12-09)
+ * added warning indicating links that can't be followed due to a missing "href" attribute
+ * dependencies updated
+ * Travis configuration improved
+
 ### 1.0.0 (2014-03-07)
  * API change: "filesBaseURL" renamed to "baseURL"
  * API change: "target" option renamed to "destinationFolder"
