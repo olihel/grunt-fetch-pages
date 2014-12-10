@@ -1,5 +1,8 @@
 # grunt-fetch-pages Release Notes
 
+### 1.0.2 (2014-12-10)
+ * dependencies updated
+
 ### 1.0.1 (2014-12-09)
  * added warning indicating links that can't be followed due to a missing "href" attribute
  * dependencies updated
