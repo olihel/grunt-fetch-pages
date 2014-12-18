@@ -39,6 +39,10 @@ module.exports = function fetchPages(pages, done, baseURL, destinationFolder, fo
         fs.writeFileSync(page.local, body);
 
         if (followLinks) {
+          if (!baseURL) {
+              console.error('baseURL is mandatory if followLinks is true. Either set followLinks to false or define baseURL.');
+              done(false);
+          }
           jsdom.env(
             body,
             [require.resolve('jquery')],
