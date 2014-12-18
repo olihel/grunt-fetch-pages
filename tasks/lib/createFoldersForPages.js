@@ -9,6 +9,7 @@
 'use strict';
 
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 
 module.exports = function createFoldersForPages(pages) {
   console.log('Creating folders...');
@@ -19,7 +20,7 @@ module.exports = function createFoldersForPages(pages) {
       var path = page.local.substr(0, fileIndex);
       if (!fs.existsSync(path)) {
         console.log('  ', path);
-        fs.mkdirSync(path);
+        mkdirp.sync(path);
       }
     }
   });

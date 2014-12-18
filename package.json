@@ -1,7 +1,7 @@
 {
   "name": "grunt-fetch-pages",
   "description": "Grunt plugin for fetching URLs and saving the result as local files",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/olihel/grunt-fetch-pages",
   "author": {
     "name": "Oliver Hellebusch",
@@ -31,6 +31,7 @@
     "htmlclean": "^2.2.3",
     "jquery": "^2.1.1",
     "jsdom": "^1.4.1",
+    "mkdirp": "^0.5.0",
     "request": "^2.51.0"
   },
   "devDependencies": {

@@ -22,7 +22,7 @@ module.exports = function (grunt) {
     },
 
     clean: {
-      test: ['test/www-fetched']
+      test: ['test/subdir/']
     },
 
     express: {
@@ -38,10 +38,10 @@ module.exports = function (grunt) {
     fetchpages: {
       noclean: {
         options: {
-          baseURL: 'http://localhost:3003',
-          destinationFolder: 'test/www-fetched',
+          baseURL: 'http://localhost:<%= express.test.options.port %>',
+          destinationFolder: 'test/subdir/www-fetched',
           urls: [
-            {url: 'http://localhost:3003/url.html', localFile: 'url.html'}
+            {url: 'http://localhost:<%= express.test.options.port %>/url.html', localFile: 'url.html'}
           ],
           followLinks: true,
           ignoreSelector: '[rel="nofollow"]',
@@ -64,8 +64,8 @@ module.exports = function (grunt) {
 
       clean: {
         options: {
-          baseURL: 'http://localhost:3003/clean.html',
-          destinationFolder: 'test/www-fetched',
+          baseURL: 'http://localhost:<%= express.test.options.port %>/clean.html',
+          destinationFolder: 'test/subdir/www-fetched',
           followLinks: false,
           cleanHTML: true
         }
