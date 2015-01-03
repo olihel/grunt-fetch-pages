@@ -30,7 +30,7 @@
   "dependencies": {
     "htmlclean": "^2.2.3",
     "jquery": "^2.1.1",
-    "jsdom": "^1.4.1",
+    "jsdom": "^2.0.0",
     "mkdirp": "^0.5.0",
     "request": "^2.51.0"
   },
