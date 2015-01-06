@@ -59,6 +59,13 @@ module.exports = function (grunt) {
       });
     }
 
+    // baseURL is needed in the followLinks branch, so stop if followLinks is true but not baseURL ist set
+    if (followLinks && !baseURL) {
+      grunt.log.error('baseURL is mandatory if followLinks is true. Either set followLinks to false or define baseURL.');
+      done(false);
+      return;
+    }
+
     pages = getPagesFromFiles(this.files, baseURL, destinationFolder);
     pages = pages.concat(getPagesFromURLs(destinationFolder, urls));
     fetchPages(pages, done, baseURL, destinationFolder, followLinks, ignoreSelector, cleanHTML);

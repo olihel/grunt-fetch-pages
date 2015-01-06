@@ -7,21 +7,21 @@
  */
 
 var FILE_ORIGINAL = 'test/www-root/index.html';
-var FILE_FETCHED = 'test/www-fetched/index.html';
-var FILE_FETCHED_EXPANDED = 'test/www-fetched/expanded.html';
-var FILE_FETCHED_NOTEXPANDED = 'test/www-fetched/not-expanded.html';
+var FILE_FETCHED = 'test/subdir/www-fetched/index.html';
+var FILE_FETCHED_EXPANDED = 'test/subdir/www-fetched/expanded.html';
+var FILE_FETCHED_NOTEXPANDED = 'test/subdir/www-fetched/not-expanded.html';
 var URL_ORIGINAL = 'test/www-root/url.html';
-var URL_FETCHED = 'test/www-fetched/url.html';
+var URL_FETCHED = 'test/subdir/www-fetched/url.html';
 var FILES_FETCHED_FOLLOWEDLINKS = [
-  'test/www-fetched/parsedlink1.html',
-  'test/www-fetched/parsedlink2-datalocalfile.html',
-  'test/www-fetched/parsedlink3.html',
-  'test/www-fetched/sub/parsedlink4.html',
+  'test/subdir/www-fetched/parsedlink1.html',
+  'test/subdir/www-fetched/parsedlink2-datalocalfile.html',
+  'test/subdir/www-fetched/parsedlink3.html',
+  'test/subdir/www-fetched/sub/parsedlink4.html'
 ];
-var FILES_FETCHED_FOLLOWEDLINKS_IGNORED = 'test/www-fetched/parsedlink-ignored.html';
-var FILE_DUPLICATE_IGNORED = 'test/www-fetched/index-duplicate.html';
+var FILES_FETCHED_FOLLOWEDLINKS_IGNORED = 'test/subdir/www-fetched/parsedlink-ignored.html';
+var FILE_DUPLICATE_IGNORED = 'test/subdir/www-fetched/index-duplicate.html';
 var FILE_ORIGINAL_CLEANED = 'test/www-root/clean-cleaned.html';
-var FILE_FETCHED_CLEANED = 'test/www-fetched/clean.html';
+var FILE_FETCHED_CLEANED = 'test/subdir/www-fetched/clean.html';
 
 var fs = require('fs');
 
