@@ -1,5 +1,9 @@
 # grunt-fetch-pages Release Notes
 
+### 1.0.4 (2015-02-16)
+ * fixed https://github.com/olihel/grunt-fetch-pages/issues/3
+ * dependencies updated
+
 ### 1.0.3 (2015-01-06)
  * fixed https://github.com/olihel/grunt-fetch-pages/issues/1
 
