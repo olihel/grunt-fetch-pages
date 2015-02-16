@@ -50,7 +50,7 @@ module.exports = function (grunt) {
         },
         files: [
           {
-            src: ['**/*.html', '!url.html', '!not-expanded.html', '!**/parsedlink*.html', '!clean.html', '!clean-cleaned.html', '!index.html'],
+            src: ['**/*.html', '!url.html', '!not-expanded.html', '!**/parsedlink*.html', '!clean.html', '!clean-cleaned.html', '!index.html', '!follow-only.html'],
             expand: true,
             cwd: 'test/www-root/'
           },
@@ -60,6 +60,14 @@ module.exports = function (grunt) {
             cwd: 'test/www-root/'
           }
         ]
+      },
+
+      nocleanfollowonly: {
+        options: {
+          baseURL: 'http://localhost:<%= express.test.options.port %>/follow-only.html',
+          destinationFolder: 'test/subdir/www-fetched',
+          fetchBaseURL: false
+        }
       },
 
       clean: {

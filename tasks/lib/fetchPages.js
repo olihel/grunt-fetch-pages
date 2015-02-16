@@ -21,6 +21,13 @@ module.exports = function fetchPages(pages, done, baseURL, destinationFolder, fo
   var pagesFetched = 0;
   var followPages = [];
 
+  if ((!pages || (pages.length === 0)) && baseURL) {
+    pages = [{
+      local: null,
+      remote: baseURL
+    }];
+  }
+
   console.log('Fetching pages...');
 
   pages = removeDuplicates(pages);
@@ -36,7 +43,9 @@ module.exports = function fetchPages(pages, done, baseURL, destinationFolder, fo
           body = htmlclean(body);
         }
 
-        fs.writeFileSync(page.local, body);
+        if (page.local) {
+          fs.writeFileSync(page.local, body);
+        }
 
         if (followLinks) {
           if (!baseURL) {
@@ -58,6 +67,9 @@ module.exports = function fetchPages(pages, done, baseURL, destinationFolder, fo
                 if (!localFile) {
                   console.warn('skipping url with invalid pathname (' + href + ')');
                   return;
+                }
+                if (localFile.charAt(0) === '/') {
+                  localFile = localFile.substr(1);
                 }
                 var remoteURL = url.resolve(baseURL, href);
                 var newPage = {

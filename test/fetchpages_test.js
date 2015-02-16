@@ -22,6 +22,8 @@ var FILES_FETCHED_FOLLOWEDLINKS_IGNORED = 'test/subdir/www-fetched/parsedlink-ig
 var FILE_DUPLICATE_IGNORED = 'test/subdir/www-fetched/index-duplicate.html';
 var FILE_ORIGINAL_CLEANED = 'test/www-root/clean-cleaned.html';
 var FILE_FETCHED_CLEANED = 'test/subdir/www-fetched/clean.html';
+var FILE_FOLLOWONLY_IGNORED = 'test/subdir/www-fetched/follow-only.html';
+var FILE_FOLLOWONLY_FETCHED = 'test/subdir/www-fetched/parsedlink-follow-only.html';
 
 var fs = require('fs');
 
@@ -110,6 +112,13 @@ exports.fetchpages = {
 
     test.ok(contentOriginal === contentFetched, 'file contents match');
 
+    test.done();
+  },
+
+  checkFollowOnlyBaseURL: function (test) {
+    test.expect(2);
+    test.ok(!fs.existsSync(FILE_FOLLOWONLY_IGNORED), 'base URL was not fetched');
+    test.ok(fs.existsSync(FILE_FOLLOWONLY_FETCHED), 'links in base URL were fetched');
     test.done();
   }
 };
