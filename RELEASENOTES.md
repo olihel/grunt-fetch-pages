@@ -1,5 +1,9 @@
 # grunt-fetch-pages Release Notes
 
+### 1.0.5 (2015-02-21)
+ * add io.js to Travis build matrix
+ * dependencies updated
+
 ### 1.0.4 (2015-02-16)
  * fixed https://github.com/olihel/grunt-fetch-pages/issues/3
  * dependencies updated
