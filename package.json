@@ -14,12 +14,7 @@
   "bugs": {
     "url": "https://github.com/olihel/grunt-fetch-pages/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/olihel/grunt-fetch-pages/master/LICENSE-MIT"
-    }
-  ],
+  "license": "MIT",
   "main": "Gruntfile.js",
   "engines": {
     "node": ">= 0.10.0"

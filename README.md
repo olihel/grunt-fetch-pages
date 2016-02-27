@@ -60,7 +60,9 @@ An optional list of remote urls to fetch. Required properties per element:
 Type: `Boolean`  
 Default: `true`
 
-Also fetch sub pages referenced via links (`<a href="">`). No fetching of links within sub pages at this time.
+Also fetch sub pages referenced via links (`<a href="">`).  
+
+No fetching of links within sub pages at this time.
 
 #### ignoreSelector
 Type: `String`  
@@ -130,7 +132,6 @@ grunt.initConfig({
 ## Contributing
 Take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Do not submit code that did not pass the default grunt task for linting and testing.
 
-[![githalytics.com alpha](https://cruel-carlota.gopagoda.com/969b888541f7d6ce883776737ae69ed8 "githalytics.com")](http://githalytics.com/olihel/grunt-fetch-pages)
 
 <sub>**Credits**</sub>  
 <sub>Thanks to [SinnerSchrader](http://www.sinnerschrader.com/) for support.</sub>
