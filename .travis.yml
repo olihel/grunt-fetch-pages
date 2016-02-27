@@ -1,12 +1,19 @@
 language: node_js
 node_js:
-  - "0.10"
-  - "0.11"
-  - "0.12"
-  - "iojs"
+  - "4.0"
+  - "4.1"
+  - "4.2"
+  - "4.3"
+  - "5.0"
+  - "5.1"
+  - "5.2"
+  - "5.3"
+  - "5.4"
+  - "5.5"
+  - "5.6"
+  - "5"
 before_script:
   - npm install
-  - npm install -g grunt-cli
 notifications:
   email:
     on_success: change
@@ -14,6 +21,13 @@ notifications:
 matrix:
   fast_finish: true
   allow_failures:
-    - node_js: "0.11"
-    - node_js: "0.12"
-    - node_js: "iojs"
+    - node_js: "4.0"
+    - node_js: "4.1"
+    - node_js: "4.3"
+    - node_js: "5.0"
+    - node_js: "5.1"
+    - node_js: "5.2"
+    - node_js: "5.3"
+    - node_js: "5.4"
+    - node_js: "5.5"
+    - node_js: "5.6"
