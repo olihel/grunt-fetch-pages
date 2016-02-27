@@ -1,15 +1,23 @@
 # grunt-fetch-pages Release Notes
 
+### 2.0.0 (2016-02-27)
+ * peerDependencies updated to support upcoming Grunt 1.0
+ * dependencies and devDependencies updated
+ * **node js >= 4.0.0 required**  
+ This is required by the updated dependency "jsdom", see [jsdom changelog](https://github.com/tmpvar/jsdom/blob/master/Changelog.md#700) for more information
+ * Travis build matrix updated
+ * minor cleanup
+
 ### 1.0.5 (2015-02-21)
  * add io.js to Travis build matrix
  * dependencies updated
 
 ### 1.0.4 (2015-02-16)
- * fixed https://github.com/olihel/grunt-fetch-pages/issues/3
+ * fixed [issue #3](https://github.com/olihel/grunt-fetch-pages/issues/3)
  * dependencies updated
 
 ### 1.0.3 (2015-01-06)
- * fixed https://github.com/olihel/grunt-fetch-pages/issues/1
+ * fixed [issue #1](https://github.com/olihel/grunt-fetch-pages/issues/1)
 
 ### 1.0.2 (2014-12-10)
  * dependencies updated
